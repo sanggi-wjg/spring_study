@@ -1,0 +1,54 @@
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    hibernate:
+      ddl-auto: update # create, create-drop, update, validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        globally_quoted_identifiers: false
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.10.87:33061/DEMO_2
+    username: root
+    password: rootroot
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:tcp://localhost/~/cfo;DATABASE_TO_LOWER=true;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true;
+
+#  sql:
+#    init:
+#      data-locations: classpath*:db/mysql/data.sql
+#      mode: never
+
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
+
+server:
+  port: 9001
+#  compression:
+#    enabled: true
+#    mime-types: application/json, text/html, test/plain, text/css, application/javascript
+#    min-response-size: 500
+  servlet:
+    session:
+      timeout: 480m
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: warn # trace sql query print 시,  `?` 에서  data param 을 출력함
+
+---
+
+spring:
+  profiles:
+    active: prod
+
+logging:
+  level: warn
