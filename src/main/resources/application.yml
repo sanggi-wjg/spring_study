@@ -33,7 +33,7 @@ server:
   port: 9001
 #  compression:
 #    enabled: true
-#    mime-types: application/json, text/html, test/plain, text/css, application/javascript
+#    mime-types: application/json, text/html, test.txt/plain, text/css, application/javascript
 #    min-response-size: 500
   servlet:
     session:

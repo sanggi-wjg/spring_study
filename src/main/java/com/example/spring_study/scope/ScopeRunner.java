@@ -18,6 +18,7 @@ public class ScopeRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("=================================================================");
+        System.out.println("[Scope]");
         System.out.println("Proto");
         System.out.println(ctx.getBean(Proto.class));
         System.out.println(ctx.getBean(Proto.class));

@@ -22,6 +22,7 @@ public class ProfileRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("=================================================================");
+        System.out.println("[Profile]");
         Environment environment = ctx.getEnvironment();
         System.out.println("ActiveProfile: " + Arrays.toString(environment.getActiveProfiles()));
         System.out.println("DefaultProfile: " + Arrays.toString(environment.getDefaultProfiles()));

@@ -18,6 +18,7 @@ public class MessageSourceRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("=================================================================");
+        System.out.println("[MessageSource]");
         System.out.println("Locale Default: " + Locale.getDefault());
         System.out.println("Greeting in Korean: " + messageSource.getMessage("greeting", new String[]{"User"}, Locale.KOREAN));
         System.out.println("Greeting in Korean: " + messageSource.getMessage("greeting", new String[]{"User"}, Locale.US));

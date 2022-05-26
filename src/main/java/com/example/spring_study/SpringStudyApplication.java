@@ -6,8 +6,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @PropertySource("classpath:/app.properties")
+@EnableAsync
 @SpringBootApplication
 public class SpringStudyApplication {
 
