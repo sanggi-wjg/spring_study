@@ -3,6 +3,7 @@ package com.example.spring_study;
 import com.example.spring_study.listener.SampleStartingListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @PropertySource("classpath:/app.properties")
 @EnableAsync
+@EnableConfigurationProperties(LocalProperties.class)
 @SpringBootApplication
 public class SpringStudyApplication {
 
@@ -18,7 +20,6 @@ public class SpringStudyApplication {
         SpringApplication app = new SpringApplication(SpringStudyApplication.class);
         app.addListeners(new SampleStartingListener());
         app.run(args);
-
 //        SpringApplication.run(SpringStudyApplication.class, args);
     }
 
