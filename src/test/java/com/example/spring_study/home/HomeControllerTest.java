@@ -23,13 +23,17 @@ class HomeControllerTest {
 
     @Test
     public void testHello() throws Exception {
-        // given
-        // when
-        // then
         mockMvc.perform(get("/hello"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("hello"))
                 .andExpect(model().attribute("name", is("Snow")));
+    }
+
+    @Test
+    public void test() throws Exception {
+        mockMvc.perform(get("/hello"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.__links.self").exists());
     }
 
 }

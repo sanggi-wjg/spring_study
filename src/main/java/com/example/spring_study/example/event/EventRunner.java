@@ -19,6 +19,7 @@ public class EventRunner implements ApplicationRunner {
         * https://velog.io/@ljinsk3/Spring-Events
         * */
         System.out.println("=================================================================");
+        System.out.println("[Event]");
         eventPublisher.publishEvent(new MyEvent(this, 100));
         System.out.println("=================================================================");
     }
