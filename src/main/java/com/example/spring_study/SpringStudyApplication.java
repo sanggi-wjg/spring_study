@@ -1,6 +1,7 @@
 package com.example.spring_study;
 
 import com.example.spring_study.example.listener.SampleStartingListener;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,8 +12,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @PropertySource("classpath:/app.properties")
-@EnableAsync
 @EnableConfigurationProperties(LocalProperties.class)
+@EnableAsync
+@EnableAdminServer
 @SpringBootApplication
 public class SpringStudyApplication {
 
