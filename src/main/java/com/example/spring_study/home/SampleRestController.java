@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SleepController {
+public class SampleRestController {
 
     @GetMapping("/sleep-5")
     public String sleep_5() throws InterruptedException {
@@ -17,5 +17,6 @@ public class SleepController {
         Thread.sleep(3000);
         return "sleep 3 - func() done!";
     }
+
 
 }

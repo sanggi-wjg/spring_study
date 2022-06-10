@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko-kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lectures</title>
+</head>
+<body>
+
+<h2>Lectures</h2>
+
+<table>
+    <tr>
+        <th>이름</th>
+        <th>참가인원</th>
+        <th>시작일</th>
+        <th>종료일</th>
+    </tr>
+    <tr th:each="lecture: ${lectures}">
+        <td th:text="${lecture.name}"></td>
+        <td th:text="${lecture.limitOfEnrollment}"></td>
+        <td th:text="${lecture.startDateTime}"></td>
+        <td th:text="${lecture.endDateTime}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
