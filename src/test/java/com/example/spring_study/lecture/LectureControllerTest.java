@@ -1,5 +1,6 @@
 package com.example.spring_study.lecture;
 
+import com.example.spring_study.lecture.dto.LectureDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
@@ -50,22 +51,22 @@ class LectureControllerTest {
                 .build();
     }
 
+
     @DisplayName("[POST] Create Lecture")
     @WithMockUser(username = "snow", password = "123")
     @Test
     public void testCreateLecture() throws Exception {
-        LectureEntity newLecture = LectureEntity.builder()
+        LectureDTO newLecture = LectureDTO.builder()
                 .name("Lecture")
                 .description("Lecture description")
                 .startEnrollDateTime(LocalDateTime.of(2022, 6, 1, 9, 0))
                 .endEnrollDateTime(LocalDateTime.of(2022, 6, 7, 18, 0))
                 .startDateTime(LocalDateTime.of(2022, 7, 1, 9, 0))
                 .endDateTime(LocalDateTime.of(2022, 7, 30, 18, 0))
+                .location("서울")
                 .basePrice(BigDecimal.valueOf(100))
                 .maxPrice(BigDecimal.valueOf(200))
                 .limitOfEnroll(10)
-                .location("서울")
-                .isOffline(false)
                 .build();
 
         mockMvc.perform(post("/api/lectures")
@@ -78,9 +79,47 @@ class LectureControllerTest {
                 .andExpect(jsonPath("id").exists());
     }
 
-    @Test
-    public void testCreateLecture_BadRequest() throws Exception {
 
+    @DisplayName("[POST] Create Lecture: Bad Request Empty DTO")
+    @WithMockUser(username = "snow", password = "123")
+    @Test
+    public void testCreateLecture_BadRequest_EmptyDTO() throws Exception {
+        LectureDTO newLecture = LectureDTO.builder().build();
+
+        mockMvc.perform(post("/api/lectures")
+                        .with(csrf())
+                        .content(objectMapper.writeValueAsString(newLecture))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @DisplayName("[POST] Create Lecture: Bad Request Invalid Input")
+    @WithMockUser(username = "snow", password = "123")
+    @Test
+    public void testCreateLecture_BadRequest_InvalidInput() throws Exception {
+        LectureDTO newLecture = LectureDTO.builder()
+                .name("Lecture")
+                .description("Lecture description")
+                .startEnrollDateTime(LocalDateTime.of(2022, 6, 7, 9, 0))
+                .endEnrollDateTime(LocalDateTime.of(2022, 6, 1, 18, 0))
+                .startDateTime(LocalDateTime.of(2022, 7, 30, 9, 0))
+                .endDateTime(LocalDateTime.of(2022, 7, 1, 18, 0))
+                .location("서울")
+                .basePrice(BigDecimal.valueOf(1000))
+                .maxPrice(BigDecimal.valueOf(200))
+                .limitOfEnroll(10)
+                .build();
+
+        mockMvc.perform(post("/api/lectures")
+                        .with(csrf())
+                        .content(objectMapper.writeValueAsString(newLecture))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
 }
