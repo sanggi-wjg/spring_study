@@ -10,8 +10,11 @@ public class LectureValidator {
 
     public void validate(LectureDTO lectureDTO, Errors errors) {
         if (lectureDTO.isWrongPricePolicy()) {
-            errors.rejectValue("basePrice", "wrongValue", "basePrice is wrong");
-            errors.rejectValue("maxPrice", "wrongValue", "maxPrice is wrong");
+            // field error
+//            errors.rejectValue("basePrice", "wrongValue", "basePrice is wrong");
+//            errors.rejectValue("maxPrice", "wrongValue", "maxPrice is wrong");
+            // global error
+            errors.reject("wrongPrice", "price values are wrong");
         }
 
         LocalDateTime endDateTime = lectureDTO.getEndDateTime();

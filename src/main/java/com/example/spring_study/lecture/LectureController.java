@@ -44,12 +44,9 @@ public class LectureController {
 
     @PostMapping()
     public ResponseEntity createLecture(@RequestBody @Valid LectureDTO lectureDTO, Errors errors) {
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
         lectureValidator.validate(lectureDTO, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(errors);
         }
 
         // mapping dto to entity
