@@ -5,18 +5,16 @@ import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
@@ -29,8 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(LectureController.class)
-//@ExtendWith(SpringExtension.class)
+@AutoConfigureMockMvc
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@Transactional
 class LectureControllerTest {
 
     @Autowired
@@ -40,10 +40,7 @@ class LectureControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean
-    LectureRepository lectureRepository;
+    private ObjectMapper objectMapper;
 
     @Before
     public void setup() {
@@ -68,10 +65,8 @@ class LectureControllerTest {
                 .maxPrice(BigDecimal.valueOf(200))
                 .limitOfEnroll(10)
                 .location("서울")
+                .isOffline(false)
                 .build();
-
-        newLecture.setId(10L);
-        Mockito.when(lectureRepository.save(newLecture)).thenReturn(newLecture);
 
         mockMvc.perform(post("/api/lectures")
                         .with(csrf())
@@ -81,6 +76,11 @@ class LectureControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists());
+    }
+
+    @Test
+    public void testCreateLecture_BadRequest() throws Exception {
+
     }
 
 }

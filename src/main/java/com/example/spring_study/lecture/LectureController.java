@@ -1,5 +1,7 @@
 package com.example.spring_study.lecture;
 
+import com.example.spring_study.lecture.dto.LectureDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class LectureController {
     @Autowired
     private LectureRepository lectureRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 //    @Autowired
 //    LectureService lectureService;
 
@@ -32,8 +37,12 @@ public class LectureController {
 //    }
 
     @PostMapping()
-    public ResponseEntity createLecture(@RequestBody LectureEntity lecture) {
-        LectureEntity newLecture = lectureRepository.save(lecture);
+    public ResponseEntity createLecture(@RequestBody LectureDTO lectureDTO) {
+        // mapping dto to entity
+        LectureEntity newLecture = lectureRepository.save(
+                modelMapper.map(lectureDTO, LectureEntity.class)
+        );
+        // create uri
         URI createdUri = linkTo(LectureController.class).slash(newLecture.getId()).toUri();
         return ResponseEntity.created(createdUri).body(newLecture);
     }

@@ -2,6 +2,10 @@ spring:
   profiles:
     active: local
 
+#  jackson:
+#    deserialization:
+#      fail_on_unknown_properties: true // api spec 외, param 이 들어오면 에러 발생
+
   jpa:
     hibernate:
       ddl-auto: update # create, create-drop, update, validate

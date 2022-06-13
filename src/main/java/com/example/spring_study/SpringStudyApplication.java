@@ -2,6 +2,7 @@ package com.example.spring_study;
 
 import com.example.spring_study.example.listener.SampleStartingListener;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,6 +33,11 @@ public class SpringStudyApplication {
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(3);
         return messageSource;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
 }

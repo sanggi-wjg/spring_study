@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
     implementation 'de.codecentric:spring-boot-admin-starter-server:2.6.7'
+    implementation 'org.modelmapper:modelmapper:2.4.5'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
