@@ -32,9 +32,9 @@ public class RestRunner implements ApplicationRunner {
 //        stopWatch.stop();
 //
 //        System.out.println(stopWatch.prettyPrint());
-        System.out.println("[WebClient - Sync request] ");
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+//        System.out.println("[WebClient - Sync request] ");
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
 
         /* 아니면 MainApplication에 Bean으로 등록 하면 baseurl 계속 사용할수도 있음
         @Bean
@@ -47,34 +47,34 @@ public class RestRunner implements ApplicationRunner {
             };
         }
         * */
-        WebClient webClient = webClientBuilder
-                .baseUrl("http://localhost:9001")
-                .build();
-        Mono<String> firstMono = webClient.get()
-                .uri("/sleep-5")
-                .retrieve()
-                .bodyToMono(String.class);
-        firstMono.subscribe(s -> {
-            System.out.println(s);
-            if (stopWatch.isRunning()) {
-                stopWatch.stop();
-            }
-            stopWatch.start();
-        });
-
-        Mono<String> secondMono = webClient.get()
-                .uri("/sleep-3")
-                .retrieve()
-                .bodyToMono(String.class);
-        secondMono.subscribe(s -> {
-            System.out.println(s);
-            if (stopWatch.isRunning()) {
-                stopWatch.stop();
-            }
-            stopWatch.start();
-        });
-
-        stopWatch.stop();
-        System.out.println(stopWatch.prettyPrint());
+//        WebClient webClient = webClientBuilder
+//                .baseUrl("http://localhost:9001")
+//                .build();
+//        Mono<String> firstMono = webClient.get()
+//                .uri("/sleep-5")
+//                .retrieve()
+//                .bodyToMono(String.class);
+//        firstMono.subscribe(s -> {
+//            System.out.println(s);
+//            if (stopWatch.isRunning()) {
+//                stopWatch.stop();
+//            }
+//            stopWatch.start();
+//        });
+//
+//        Mono<String> secondMono = webClient.get()
+//                .uri("/sleep-3")
+//                .retrieve()
+//                .bodyToMono(String.class);
+//        secondMono.subscribe(s -> {
+//            System.out.println(s);
+//            if (stopWatch.isRunning()) {
+//                stopWatch.stop();
+//            }
+//            stopWatch.start();
+//        });
+//
+//        stopWatch.stop();
+//        System.out.println(stopWatch.prettyPrint());
     }
 }
