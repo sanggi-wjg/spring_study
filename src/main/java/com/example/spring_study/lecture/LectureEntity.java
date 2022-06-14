@@ -1,6 +1,7 @@
 package com.example.spring_study.lecture;
 
 
+import com.example.spring_study.lecture.data.LectureStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,6 +40,12 @@ public class LectureEntity {
     private boolean isFree;
 
     @Enumerated(EnumType.STRING)
-    private LectureStatus lectureStatus;
+    private LectureStatus lectureStatus = LectureStatus.DRAFT;
+
+
+    public void update() {
+        isFree = basePrice.equals(BigDecimal.valueOf(0)) && maxPrice.equals(BigDecimal.valueOf(0));
+        isOffline = location.isBlank() || location == null;
+    }
 
 }

@@ -1,15 +1,16 @@
 package com.example.spring_study.lecture;
 
 import com.example.spring_study.lecture.dto.LectureDTO;
-import com.example.spring_study.lecture.dto.LectureValidator;
+import com.example.spring_study.lecture.resource.LectureResource;
+import com.example.spring_study.lecture.valid.LectureValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,14 +50,20 @@ public class LectureController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        // mapping dto to entity
-        LectureEntity newLecture = lectureRepository.save(
-                modelMapper.map(lectureDTO, LectureEntity.class)
-        );
+        LectureEntity lecture = modelMapper.map(lectureDTO, LectureEntity.class);
+        lecture.update();
+        LectureEntity newLecture = lectureRepository.save(lecture);
+
         // create uri
-        URI createdUri = linkTo(LectureController.class).slash(newLecture.getId()).toUri();
-        System.out.println("createdUri = " + createdUri.getRawFragment());
-        return ResponseEntity.created(createdUri).body(newLecture);
+        WebMvcLinkBuilder linkBuilder = linkTo(LectureController.class).slash(newLecture.getId());
+        URI createdUri = linkBuilder.toUri();
+
+        LectureResource lectureResource = new LectureResource(newLecture);
+        lectureResource.add(linkBuilder.withSelfRel());
+        lectureResource.add(linkTo(LectureController.class).withRel("query-events"));
+        lectureResource.add(linkTo(LectureController.class).withRel("update-event"));
+
+        return ResponseEntity.created(createdUri).body(lectureResource);
     }
 
 }

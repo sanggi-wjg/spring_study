@@ -1,5 +1,6 @@
 package com.example.spring_study.lecture;
 
+import com.example.spring_study.lecture.data.LectureStatus;
 import com.example.spring_study.lecture.dto.LectureDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,8 +27,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -76,7 +77,14 @@ class LectureControllerTest {
                         .accept(MediaTypes.HAL_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists());
+                .andExpect(jsonPath("id").exists())
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON.toString()))
+                .andExpect(jsonPath("free").value(false))
+                .andExpect(jsonPath("offline").value(false))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.query-events").exists())
+                .andExpect(jsonPath("_links.update-event").exists());
     }
 
 
@@ -125,6 +133,35 @@ class LectureControllerTest {
                 .andExpect(jsonPath("$[0].defaultMessage").exists())
                 .andExpect(jsonPath("$[0].code").exists())
                 .andExpect(jsonPath("$[0].rejectValue").exists());
+    }
+
+
+    @DisplayName("[POST] Create Lecture: test update method")
+    @WithMockUser(username = "snow", password = "123")
+    @Test
+    public void testCreateLecture_UpdateMethod() throws Exception {
+        LectureDTO newLecture = LectureDTO.builder()
+                .name("Lecture")
+                .description("Lecture description")
+                .startEnrollDateTime(LocalDateTime.of(2022, 6, 7, 9, 0))
+                .endEnrollDateTime(LocalDateTime.of(2022, 6, 1, 18, 0))
+                .startDateTime(LocalDateTime.of(2022, 7, 30, 9, 0))
+                .endDateTime(LocalDateTime.of(2022, 7, 1, 18, 0))
+                .location("서울")
+                .basePrice(BigDecimal.valueOf(1000))
+                .maxPrice(BigDecimal.valueOf(200))
+                .limitOfEnroll(10)
+                .build();
+
+        mockMvc.perform(post("/api/lectures")
+                        .with(csrf())
+                        .content(objectMapper.writeValueAsString(newLecture))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+        ;
     }
 
 }

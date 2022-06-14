@@ -1,4 +1,4 @@
-package com.example.spring_study.lecture;
+package com.example.spring_study.lecture.data;
 
 public enum LectureStatus {
 

@@ -1,5 +1,6 @@
-package com.example.spring_study.lecture.dto;
+package com.example.spring_study.lecture.valid;
 
+import com.example.spring_study.lecture.dto.LectureDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
