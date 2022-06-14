@@ -22,9 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.stream.IntStream;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,6 +45,9 @@ class LectureControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private LectureRepository lectureRepository;
 
     @Before
     public void setup() {
@@ -160,8 +165,32 @@ class LectureControllerTest {
                         .accept(MediaTypes.HAL_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0].objectName").exists())
-        ;
+                .andExpect(jsonPath("$[0].objectName").exists());
+    }
+
+    @DisplayName("[GET] Page Query")
+    @WithMockUser(username = "snow", password = "123")
+    @Test
+    public void testPagedQuery() throws Exception {
+        IntStream.range(0, 30).forEach(i -> {
+            generateLecture(i);
+        });
+
+        mockMvc.perform(get("/api/lectures")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("sort", "name,DESC"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    private void generateLecture(int index) {
+        LectureEntity lectureEntity = LectureEntity.builder()
+                .name("Lecture " + index)
+                .description("Test lecture")
+                .build();
+
+        lectureRepository.save(lectureEntity);
     }
 
 }
