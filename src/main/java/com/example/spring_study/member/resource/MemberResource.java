@@ -1,6 +1,6 @@
-package com.example.spring_study.user.resource;
+package com.example.spring_study.member.resource;
 
-import com.example.spring_study.user.MemberEntity;
+import com.example.spring_study.member.MemberEntity;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;

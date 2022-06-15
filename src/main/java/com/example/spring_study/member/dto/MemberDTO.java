@@ -1,4 +1,4 @@
-package com.example.spring_study.user.dto;
+package com.example.spring_study.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

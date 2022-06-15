@@ -1,6 +1,6 @@
-package com.example.spring_study.user;
+package com.example.spring_study.member;
 
-import com.example.spring_study.user.dto.MemberDTO;
+import com.example.spring_study.member.dto.MemberDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 
 
 @RestController
-public class MemberController {
+public class MemberAPIController {
 
     @Autowired
     private MemberService memberService;
@@ -33,13 +33,13 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/members")
+    @PostMapping("/api/v1/members")
     public MemberEntity createUser(@RequestBody MemberEntity member) {
         return member;
     }
 
 
-    @GetMapping("/members")
+    @GetMapping("/api/v1/members")
     public ResponseEntity<?> getUser(Pageable pageable, PagedResourcesAssembler<MemberDTO> assembler) {
         Page<MemberDTO> memberDTOS = memberService.findAllByPage(pageable);
         PagedModel<EntityModel<MemberDTO>> entityModels = assembler.toModel(memberDTOS);

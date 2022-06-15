@@ -1,6 +1,6 @@
-package com.example.spring_study.user;
+package com.example.spring_study.member;
 
-import com.example.spring_study.user.dto.MemberDTO;
+import com.example.spring_study.member.dto.MemberDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;

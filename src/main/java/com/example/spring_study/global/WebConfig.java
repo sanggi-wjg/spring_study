@@ -4,10 +4,7 @@ import com.example.spring_study.home.interceptor.AnotherInterceptor;
 import com.example.spring_study.home.interceptor.GreetingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -15,9 +12,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // /m/** 로 request 올시에 resource 를 /m/ 경로로 매핑
-        registry.addResourceHandler("/m/**")
-                .addResourceLocations("classpath:/m/")
-                .setCachePeriod(20);
+//        registry.addResourceHandler("/m/**")
+//                .addResourceLocations("classpath:/m/")
+//                .setCachePeriod(20);
+//        registry.addResourceHandler("/**")
+//                .addResourceLocations("classpath:/static")
+//                .setCachePeriod(20);
     }
 
     @Override

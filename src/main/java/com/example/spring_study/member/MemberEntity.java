@@ -1,13 +1,15 @@
-package com.example.spring_study.user;
+package com.example.spring_study.member;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "members")
 @Entity
 public class MemberEntity {
